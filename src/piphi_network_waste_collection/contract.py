@@ -23,6 +23,9 @@ CAPABILITIES: dict[str, dict[str, Any]] = {
         "kind": "sensor",
         "unit": "bool"
     },
+    "next_collection_date": {"kind": "sensor", "value_kind": "text"},
+    "next_collection_type": {"kind": "sensor", "value_kind": "text"},
+    "days_until_collection": {"kind": "sensor", "value_kind": "numeric", "unit": "days"},
     "refresh": {
         "kind": "action"
     }
@@ -37,51 +40,26 @@ COMMANDS: dict[str, dict[str, Any]] = {
 
 CONFIG_SCHEMA: dict[str, Any] = {
     "schema": {
-        "title": "Piphi Network Waste Collection Setup",
+        "title": "Next waste collection",
         "type": "object",
-        "required": [
-            "host"
-        ],
+        "required": ["next_collection_date", "collection_type"],
         "properties": {
-            "host": {
-                "type": "string",
-                "title": "Host"
-            },
             "alias": {
                 "type": "string",
                 "title": "Alias"
             },
-            "base_url": {
-                "type": "string",
-                "title": "Base URL"
-            },
-            "api_key": {
-                "type": "string",
-                "title": "API Key"
-            },
-            "poll_interval_seconds": {
-                "type": "integer",
-                "title": "Poll Interval Seconds",
-                "minimum": 15
-            }
+            "next_collection_date": {"type": "string", "title": "Next pickup date (YYYY-MM-DD)"},
+            "collection_type": {"type": "string", "title": "Collection type"},
+            "schedule_timezone": {"type": "string", "title": "Time zone"}
         }
     },
     "uiSchema": {
-        "host": {
-            "placeholder": "192.168.1.50"
-        },
         "alias": {
-            "placeholder": "Office Device"
+            "placeholder": "Home collection"
         },
-        "base_url": {
-            "placeholder": "https://api.vendor.example"
-        },
-        "api_key": {
-            "placeholder": "secret-token"
-        },
-        "poll_interval_seconds": {
-            "placeholder": "60"
-        }
+        "next_collection_date": {"placeholder": "2026-09-25"},
+        "collection_type": {"placeholder": "Recycling"},
+        "schedule_timezone": {"placeholder": "America/New_York"}
     }
 }
 
@@ -92,6 +70,9 @@ FALLBACK_ENTITY: dict[str, Any] = {
     "entity_type": "sensor",
     "capabilities": [
         "connected",
+        "next_collection_date",
+        "next_collection_type",
+        "days_until_collection",
         "refresh"
     ],
     "available_commands": [

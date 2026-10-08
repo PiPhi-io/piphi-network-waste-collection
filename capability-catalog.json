@@ -14,11 +14,22 @@
       "status": "implemented",
       "scope": ["all-configurations"],
       "source_refs": ["core_vocabulary"],
-      "reason": "The scaffold implements configuration presence, connectivity state, refresh dispatch, and its configuration event.",
+      "reason": "The runtime reports a valid configured date, supports refresh, and emits a configuration event.",
       "state": ["connected"],
       "events": ["runtime.config.applied"],
       "conditions": ["state_matches"],
       "actions": ["refresh"]
+    },
+    {
+      "id": "manual-next-collection",
+      "status": "implemented",
+      "scope": ["user-specified-date"],
+      "source_refs": ["core_vocabulary"],
+      "reason": "A homeowner-provided collection date and time zone yield a deterministic countdown without provider access.",
+      "state": ["next_collection_date", "days_until_collection", "next_collection_type"],
+      "events": [],
+      "conditions": [],
+      "actions": []
     },
     {
       "id": "normalized-collection-schedule",
@@ -26,7 +37,7 @@
       "scope": ["all-source-adapters", "ics", "user-specified", "multiple-source-wrapper"],
       "source_refs": ["waste_schedule", "installation"],
       "reason": "All provider adapters normalize into deterministic calendar and collection entities.",
-      "state": ["next_collection_at", "next_collection_date", "days_until_collection", "next_collection_type", "next_collection_title", "next_collection_icon", "upcoming_collection_count", "collection_types", "schedule_timezone", "schedule_window_days"],
+      "state": ["next_collection_at", "next_collection_title", "next_collection_icon", "upcoming_collection_count", "collection_types", "schedule_timezone", "schedule_window_days"],
       "events": ["collection.added", "collection.removed", "collection.rescheduled", "schedule.changed"],
       "conditions": ["collection_type_is", "collection_due_within_days", "collection_date_is", "upcoming_count_threshold"],
       "actions": []

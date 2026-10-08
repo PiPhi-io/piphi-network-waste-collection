@@ -4,7 +4,7 @@
   "id": "piphi-network-waste-collection",
   "name": "Waste collection",
   "version": "0.1.0",
-  "description": "Track upcoming household waste and recycling collections from configured providers.",
+  "description": "Track the next manually configured household waste or recycling collection.",
   "metadata": {
     "generator": "piphi-network-create",
     "scaffold_version": "0.3.0",
@@ -72,11 +72,10 @@
     "endpoint": "/ui-config",
     "required": true,
     "editable_fields": [
-      "host",
       "alias",
-      "base_url",
-      "api_key",
-      "poll_interval_seconds"
+      "next_collection_date",
+      "collection_type",
+      "schedule_timezone"
     ],
     "runtime_fields": [
       "id",
@@ -85,12 +84,12 @@
       "device_id"
     ],
     "identity_fields": [
-      "host"
+      "collection_type"
     ]
   },
   "identity": {
     "fields": [
-      "host"
+      "collection_type"
     ]
   },
   "capabilities": {
@@ -98,6 +97,9 @@
       "kind": "sensor",
       "unit": "bool"
     },
+    "next_collection_date": {"kind": "sensor", "value_kind": "text"},
+    "next_collection_type": {"kind": "sensor", "value_kind": "text"},
+    "days_until_collection": {"kind": "sensor", "value_kind": "numeric", "unit": "days"},
     "refresh": {
       "kind": "action"
     }
@@ -116,6 +118,9 @@
       "entity_type": "sensor",
       "capabilities": [
         "connected",
+        "next_collection_date",
+        "next_collection_type",
+        "days_until_collection",
         "refresh"
       ],
       "available_commands": [
@@ -135,10 +140,15 @@
       }
     }
   ],
+  "ui": {
+    "experience_packages": [
+      {"registry_id": "io.piphi.waste-next-collection", "version_range": ">=0.1,<1", "auto_install": true}
+    ]
+  },
   "marketplace": {
     "metadata_version": 2,
     "display_name": "Waste collection",
-    "summary": "Track upcoming household waste and recycling collections from configured providers.",
+    "summary": "Track the next manually configured household waste or recycling collection.",
     "category": "other",
     "regions": [
       "WW"
@@ -152,18 +162,12 @@
       "support_url": "https://github.com/PiPhi-io/piphi-network-waste-collection/issues",
       "security_contact": "support@piphi.io"
     },
-    "access": [
-      {
-        "id": "credentials",
-        "label": "Account or device credentials",
-        "reason": "Authenticates only to the configured vendor account, service, or local device and keeps credentials out of state and diagnostics.",
-        "required": true
-      }
-    ],
+    "access_declared": true,
+    "access": [],
     "compatibility": [
       {
-        "brand": "Multi-provider",
-        "model": "Supported municipal and waste-service schedule sources"
+        "brand": "PiPhi",
+        "model": "User-maintained collection date"
       }
     ],
     "documentation_url": "https://github.com/PiPhi-io/piphi-network-waste-collection",
@@ -183,14 +187,13 @@
       "waste collection schedule"
     ],
     "protocols": [
-      "configured municipal or provider API",
-      "HTTPS"
+      "manual date configuration"
     ],
     "discovery_methods": [
-      "address or provider configuration"
+      "manual configuration"
     ],
-    "connectivity": "cloud",
-    "offline_support": "none",
+    "connectivity": "local",
+    "offline_support": "full",
     "privacy_url": "https://github.com/PiPhi-io/piphi-network-waste-collection/blob/main/docs/privacy.md"
   }
 }
