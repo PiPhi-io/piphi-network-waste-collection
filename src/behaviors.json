@@ -125,6 +125,9 @@
       "entityType": "sensor",
       "capabilities": [
         "connected",
+        "next_collection_date",
+        "next_collection_type",
+        "days_until_collection",
         "refresh"
       ],
       "targeting": {
