@@ -195,5 +195,8 @@
     "connectivity": "local",
     "offline_support": "full",
     "privacy_url": "https://github.com/PiPhi-io/piphi-network-waste-collection/blob/main/docs/privacy.md"
+  },
+  "onboarding": {
+    "mode": "manual"
   }
 }
